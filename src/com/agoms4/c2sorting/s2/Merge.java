@@ -9,7 +9,7 @@ import static com.agoms4.Utils.*;
  * 所需时间和 NlgN 成正比
  * 缺点：需要额外的空间和 N 成正比
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "DuplicatedCode"})
 public class Merge {
 
     public static void sort(Comparable[] a) {
