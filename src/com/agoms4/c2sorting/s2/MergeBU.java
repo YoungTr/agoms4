@@ -7,7 +7,7 @@ import static com.agoms4.Utils.*;
 /**
  * 自底向上的归并排序
  */
-@SuppressWarnings({"rawtypes", "DuplicatedCode"})
+@SuppressWarnings({"rawtypes", "DuplicatedCode", "ManualArrayCopy"})
 public class MergeBU {
 
     public static void sort(Comparable[] a) {
