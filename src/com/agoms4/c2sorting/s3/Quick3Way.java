@@ -26,7 +26,7 @@ public class Quick3Way {
             // a[i] < v, a[lt] 和 a[i] 交换，lt++,i++
             if (cmp < 0) exch(a, lt++, i++);
             // a[i] > v, a[gt] 和 a[i] 交换，gt--, i++
-            else if (cmp > 0) exch(a, gt--, i++);
+            else if (cmp > 0) exch(a, gt--, i);
             // a[i] == v, i++
             else i++;
         }
