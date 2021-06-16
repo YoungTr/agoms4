@@ -16,7 +16,7 @@ public class Quick3Way {
         sort3Way(a, 0, a.length - 1);
     }
 
-    //a[l0...lt-1] < v = a[lt..gt] < a[gt...hi]
+    //a[l0...lt-1] < v = a[lt..gt] < a[gt+1...hi]
     private static void sort3Way(Comparable[] a, int lo, int hi) {
         if (lo >= hi) return;
         int lt = lo, gt = hi, i = lo + 1;
