@@ -1,4 +1,4 @@
-package com.agoms4.c2sorting.s4;
+package com.agoms4.c2sorting.s4heap;
 
 @SuppressWarnings("unchecked")
 public class MaxPQ<Key extends Comparable<Key>> {

@@ -1,4 +1,4 @@
-package com.agoms4.c2sorting.s3;
+package com.agoms4.c2sorting.s3quick;
 
 import edu.princeton.cs.algs4.StdRandom;
 

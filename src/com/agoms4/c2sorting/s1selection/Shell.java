@@ -1,4 +1,4 @@
-package com.agoms4.c2sorting.s1;
+package com.agoms4.c2sorting.s1selection;
 
 import static com.agoms4.Utils.exch;
 import static com.agoms4.Utils.less;

@@ -1,7 +1,7 @@
 package com.agoms4.c2sorting;
 
-import com.agoms4.c2sorting.s1.Insertion;
-import com.agoms4.c2sorting.s1.Selection;
+import com.agoms4.c2sorting.s1selection.Insertion;
+import com.agoms4.c2sorting.s1selection.Selection;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.Stopwatch;

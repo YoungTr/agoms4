@@ -1,4 +1,4 @@
-package com.agoms4.c2sorting.s1;
+package com.agoms4.c2sorting.s1selection;
 
 import edu.princeton.cs.algs4.In;
 
