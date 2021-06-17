@@ -35,10 +35,10 @@ public class MergeBU {
         // merge aux[] to a[]
         int i = lo, j = mid + 1;
         for (int k = lo; k <= hi; k++) {
-            if (i > mid)                a[k] = aux[j++];
-            else if (j > hi)            a[k] = aux[i++];
-            else if (less(a[i], a[j]))  a[k] = aux[i++];
-            else                        a[k] = aux[j++];
+            if (i > mid)                    a[k] = aux[j++];
+            else if (j > hi)                a[k] = aux[i++];
+            else if (less(aux[i], aux[j]))  a[k] = aux[i++];
+            else                            a[k] = aux[j++];
         }
         assert isSorted(a, lo, hi);
     }
