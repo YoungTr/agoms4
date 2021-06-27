@@ -43,6 +43,10 @@ public class Graph {
         E++;
     }
 
+    public Iterable<Integer> adj(int v) {
+        return adj[v];
+    }
+
     /**
      * Return a string representation of the graph.
      */
