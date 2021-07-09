@@ -53,3 +53,9 @@
 #### 链表 VS 数组
 
 ![](./pics/linked7.jpg)
+
+### 栈
+
+![](./pics/stack1.jpg)
+
+### 
