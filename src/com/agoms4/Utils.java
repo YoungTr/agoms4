@@ -15,6 +15,10 @@ public class Utils {
         return v.compareTo(w) < 0;
     }
 
+    public static boolean large(Comparable v, Comparable w) {
+        return v.compareTo(w) > 0;
+    }
+
     public static boolean isSorted(Comparable[] a) {
         return isSorted(a, 0, a.length - 1);
     }
