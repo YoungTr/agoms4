@@ -78,3 +78,71 @@ public class Insertion {
 ```
 
 插入排序对于部分有序的数组十分高效。
+
+### 归并排序
+
+将两个有序的数组归并成一个更大的有序数组。
+
+要将一个数组排序，可以先（递归地）将它分成两半分别排序，然后将结果归并起来。
+
+时间复杂度 NlogN，空间复杂度 N
+
+merge(a, lo, mid, hi) 将子数组 a[lo...mid] 和 a[mid+1...hi] 归并成一个有序的数组并将结果存放在a[lo...hi]中。
+
+```java
+public class Merge {
+
+
+    public static void merge(int[] a, int lo, int mid, int hi) {
+        int i = lo, j = mid + 1;
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];
+        }
+        for (int k = lo; k <= hi; k++) {
+            if (i > mid)            a[k] = aux[j++];
+            else if (j > hi)        a[k] = aux[i++];
+            else if (a[j] < a[i])   a[k] = aux[j++];
+            else                    a[k] = aux[i++];
+        }
+    }
+}
+```
+
+该方法先将所有的元素复制到 aux[] 中，然后再归并回 a[] 中。方法在归并时（第二个 for 循环）进行了 4
+个判断：左半边用尽（取右半边的元素）、右半边用尽（取左半边）、右半边的当前元素小于左半边的当前元素（取右半边）、右半边的当前元素大于等于左半边的当前元素（取左半边的元素）。
+
+#### 自顶向下的归并排序
+
+```java
+import geek.beauty.sort.Insertion;
+
+public class Merge {
+
+    private static int[] aux;
+
+    public static void sort(int[] a) {
+        aux = new int[a.length];
+        sort(a, 0, a.length - 1);
+    }
+
+    private static void sort(int[] a, int lo, int hi) {
+        if (hi <= lo) return;
+        // 优化点
+        // 1. 使用插入排序处理小规模的子数组（比如长度小于 15）一般可以将归并排序的运行时间缩短 10% ~ 15%。
+        if (hi - lo <= 15) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = lo + (hi - lo) / 2;
+        sort(a, lo, mid);           // 将左半边排序
+        sort(a, mid + 1, hi);       // 将右半边排序
+        // 优化点
+        // 2. 可以增加一个判断条件，如果 a[mid] 小于等于 a[mid + 1]，我们就认为数组已经是有序的并跳过merge()方法。
+        if (a[mid] > a[mid + 1])
+            merge(a, lo, mid, hi);  // 归并结果
+    }
+}
+```
+
+归并排序所需的时间和 NlogN 成正比，可以处理数百万甚至更大规模的数组，这是插入排序或者选择排序做不到的。
+主要缺点是辅助数组所使用的额外空间和 N 的大小成正比。
