@@ -99,10 +99,10 @@ public class Merge {
             aux[k] = a[k];
         }
         for (int k = lo; k <= hi; k++) {
-            if (i > mid)            a[k] = aux[j++];
-            else if (j > hi)        a[k] = aux[i++];
-            else if (a[j] < a[i])   a[k] = aux[j++];
-            else                    a[k] = aux[i++];
+            if (i > mid) a[k] = aux[j++];
+            else if (j > hi) a[k] = aux[i++];
+            else if (a[j] < a[i]) a[k] = aux[j++];
+            else a[k] = aux[i++];
         }
     }
 }
@@ -144,5 +144,33 @@ public class Merge {
 }
 ```
 
-归并排序所需的时间和 NlogN 成正比，可以处理数百万甚至更大规模的数组，这是插入排序或者选择排序做不到的。
-主要缺点是辅助数组所使用的额外空间和 N 的大小成正比。
+归并排序所需的时间和 NlogN 成正比，可以处理数百万甚至更大规模的数组，这是插入排序或者选择排序做不到的。 主要缺点是辅助数组所使用的额外空间和 N 的大小成正比。
+
+### 自底向上的归并排序
+
+先归并那些微型数组，然后再成对归并得到的子数组，如此这般，直到将整个数组归并在一起。
+
+首先进行的是两两归并（把每个元素想象成一个大小为1的数组），然后是四四归并（将两个大小为2的数组归并成一个有4个元素的数组），然后是八八的归并，一直下去。
+
+```java
+public class MergeBu {
+    private static int[] aux;
+
+    public static void sort(int[] a) {
+        int N = a.length;
+        aux = new int[N];
+        // 子数组的大小 sz 初始值为1，每次加倍
+        // sz 表示先 1 1 归并
+        // 然后 2 2 归并
+        // 再   4 4 归并
+        for (int sz = 1; sz < N; sz = sz + sz) {
+            // 每次归并先从 0 位置开始
+            // 下一个归并的区间开始的位置是 lo+=sz+sz
+            for (int lo = 0; lo < N - sz; lo += sz + sz) {
+                // 最后一次归并的第二个数组可能比第一个子数组要小
+                merge(lo, lo + sz - 1, Math.min(lo + sz + sz - 1, N - 1));
+            }
+        }
+    }
+}
+```
