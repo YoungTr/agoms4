@@ -146,7 +146,7 @@ public class Merge {
 
 归并排序所需的时间和 NlogN 成正比，可以处理数百万甚至更大规模的数组，这是插入排序或者选择排序做不到的。 主要缺点是辅助数组所使用的额外空间和 N 的大小成正比。
 
-### 自底向上的归并排序
+#### 自底向上的归并排序
 
 先归并那些微型数组，然后再成对归并得到的子数组，如此这般，直到将整个数组归并在一起。
 
@@ -172,5 +172,61 @@ public class MergeBu {
             }
         }
     }
+}
+```
+
+#### 快速排序
+
+快速排序是原地排序，时间复杂度是O(NlogN)，空间复杂度为 O(1)，是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立地排序。
+
+快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。
+
+```java
+import edu.princeton.cs.algs4.StdRandom;
+
+public class Quick {
+    public static void sort(Comparable<?>[] a) {
+        StdRandom.shuffle(a); // 消除对输入的依赖
+        sort(a, 0, a.length - 1);
+    }
+
+    private static void sort(Comparable<?> a, int lo, int hi) {
+        if (hi <= ho) return;
+        int j = partition(a, lo, hi);
+        sort(a, lo, j-1);
+        sort(a, j+1, hi);
+    }
+}
+```
+
+快速排序递归地将子数组 a[lo...hi] 排序，先用 partition() 方法将 a[j] 放到一个合适的位置，然后再用递归调用将其他位置的元素排序。
+
+该方法的关键在于切分，这个过程使得数组满足下面三个条件：
+
+1. 对于某个 j，a[j] 已经排定；
+2. a[lo] 到 a[j-1] 中的所有元素都不大于 a[j];(<=a[j])
+3. a[j+1] 到 a[hi] 中的所有元素都不小于 a[j];(>=a[j])
+
+实现方法：
+
+1. 先随意地取a[lo]作为切分元素，即那个将会被排定的元素；
+2. 然后从数组的左端开始向右扫描直到找到一个大于等于它的元素；
+3. 再从数据的右端开始向左扫描直到找到一个小于等于它的元素；
+4. 这两个元素显然是没有排定的，因此交换它们的位置；
+5. 如此继续，就可以保证左指针 i 的左侧元素都不大于切分元素，右指针 j 的右侧元素都不小于切分元素；
+6. 当两个指针相遇时，只需要将切分元素 a[lo] 和左子数组最右侧的元素(a[j])交换然后返回 j 即可。
+
+```java
+private static int partition(Comparable[] a, int lo, int hi) {
+    int i = lo, j = hi + 1;
+    Comparable v = a[lo];
+    while(true) {
+        while(less(a[++i], v)) if(i == hi) break;
+        while(less(v, a[--j])) if(j == lo) break;
+        if(i >= j) break;
+        exch(a, i, j);
+    }
+    exch(a, i, j);  // 将 v = a[j] 放入到正确位置
+    return j;       // a[lo...j-1] <= a[j] <= a[j+1...hi] 达成
 }
 ```
