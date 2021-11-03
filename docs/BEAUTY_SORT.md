@@ -193,8 +193,8 @@ public class Quick {
     private static void sort(Comparable<?> a, int lo, int hi) {
         if (hi <= ho) return;
         int j = partition(a, lo, hi);
-        sort(a, lo, j-1);
-        sort(a, j+1, hi);
+        sort(a, lo, j - 1);
+        sort(a, j + 1, hi);
     }
 }
 ```
@@ -230,3 +230,56 @@ private static int partition(Comparable[] a, int lo, int hi) {
     return j;       // a[lo...j-1] <= a[j] <= a[j+1...hi] 达成
 }
 ```
+
+### 快速排序算法改进
+
+#### 切换到插入排序
+
+* 对于小数组，快速排序比插入排序慢；
+* 因为递归，快速排序的 sort() 方法在小数组中也会调用自己
+
+因此，在排序小数组时应切换到插入排序
+
+```java
+if(hi<=lo+M){Insertion.sort(a,lo,hi);return;}
+```
+
+转换参数 M 的最佳值是和系统相关的，但是 5~15 之间的任意值在大多数情况下都能令人满意。
+
+#### 三取样切分
+
+#### 熵最优的排序
+
+在有大量重复元素的情况下，快速排序的递归性会使元素全部重复的子数组经常出现，一个简单的想法就是将数组切为三部分，分别对应小于、等于和大于切分元素的数组元素。
+
+> 它从左到右遍历数组一次，维护一个指针`lt`使得`a[lo..lt-1]`中的元素都小于`v`，一个指针`gt`使得`a[gt+1..hi]`中元素都大于`v`，一个指针`i`使得`a[lt..i-1]`中的元素都等于`v`，`a[i..gt]`中的元素都还未确定。
+> 一开始`i`和`lo`相等，对`a[i]`进行三向比较
+> * a[i] 小于 v，将 a[lt] 和 a[i] 交换，将 lt 和 i 加一；
+> * a[i] 大于 v，将 a[gt] 和 a[i] 交换，将 gt 减一；
+> * a[i] 等于 v，将 i 加一。
+>
+> 这些操作都会保证数组元素不变且缩小 gt-i 的值（这样循环才会结束）。
+
+#### 三向切分的开始排序
+
+```java
+public class Quick3Way {
+    private static void sort(Comparable<?>[] a, int lo, int hi) {
+        if (hi <= lo) return;
+        int lt = lo, i = lo + 1, gt = hi;
+        Comparable<?> v = a[lo];
+        while (i <= gt) {
+            int cmp = a[i].compareTo(v);
+            if (cmp < 0) exch(a, lt++, i++);
+            else if (cmp > 0) exch(a, gt--, i);
+            else i++;
+        } // 现在 a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi] 成立
+        sort(a, lo, lt - 1);
+        sort(a, gt + 1, hi);
+    }
+}
+```
+
+这段排序的切分能够将切分元素相等的元素归位，这样他们就不会被包含在递归调用处理的子数组之中了。
+
+这对于存在大量重复元素的数组，这种方法比标准的快速排序的效率高得多。
